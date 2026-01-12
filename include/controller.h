@@ -1,6 +1,15 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
+// 触摸点结构体（替代旧版 touchPosition）
+typedef struct {
+	u32 x;
+	u32 y;
+} TouchPoint;
+
+// 全局 PadState 声明
+extern PadState g_pad;
+
 typedef struct	s_controller
 {
 	// common
@@ -31,17 +40,17 @@ enum button_id
 
 void			default_controller_layout(void);
 
-bool			touch_next_page_home(touchPosition touch);
-bool			touch_prev_page_home(touchPosition touch);
+bool			touch_next_page_home(TouchPoint touch);
+bool			touch_prev_page_home(TouchPoint touch);
 
-bool			touch_launch_book_home(touchPosition touch);
+bool			touch_launch_book_home(TouchPoint touch);
 
-bool			touch_exit_home(touchPosition touch);
+bool			touch_exit_home(TouchPoint touch);
 
-bool			touch_next_page_read(touchPosition touch);
-bool			touch_prev_page_read(touchPosition touch);
+bool			touch_next_page_read(TouchPoint touch);
+bool			touch_prev_page_read(TouchPoint touch);
 
-bool			touch_button(touchPosition touch, int button_id);
-bool			button_touch(touchPosition touch, SDL_Rect rect);
+bool			touch_button(TouchPoint touch, int button_id);
+bool			button_touch(TouchPoint touch, SDL_Rect rect);
 
 #endif

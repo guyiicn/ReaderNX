@@ -5,6 +5,7 @@ extern t_transform	*trans;
 extern t_ebook		*ebook;
 extern t_layout		*layout;
 extern t_cbr		*cbr;
+extern PadState		g_pad;
 
 void	draw_ppm(fz_pixmap *ppm, bool cover)
 {
@@ -533,17 +534,17 @@ void	draw_message_box(char *msg)
 	draw_text(graphic->renderer, (WIN_WIDTH / 2) - (w / 2), (WIN_HEIGHT / 2) - (h / 2), msg, graphic->ttf->font_small, color, 0);
 
 	while (appletMainLoop()) {
-		hidScanInput();
+		padUpdate(&g_pad);
 
-		u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
+		u64 kDown = padGetButtonsDown(&g_pad);
 
-		if (kDown & KEY_PLUS) {
+		if (kDown & HidNpadButton_Plus) {
 			break ;
 		}
 
 		SDL_RenderPresent(graphic->renderer);
 	}
-	
+
 }
 
 void	draw_error(char *msg)
@@ -560,11 +561,11 @@ void	draw_error(char *msg)
 	draw_text(graphic->renderer, (WIN_WIDTH / 2) - (w / 2), (WIN_HEIGHT / 2) - (h / 2), msg, graphic->ttf->font_medium, color, 0);
 
 	while (appletMainLoop()) {
-		hidScanInput();
+		padUpdate(&g_pad);
 
-		u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
+		u64 kDown = padGetButtonsDown(&g_pad);
 
-		if (kDown & KEY_PLUS) {
+		if (kDown & HidNpadButton_Plus) {
 			break ;
 		}
 

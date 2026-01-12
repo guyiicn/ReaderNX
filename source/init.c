@@ -7,6 +7,9 @@ extern t_controller	*controller;
 extern t_layout		*layout;
 extern t_cbr		*cbr;
 
+// 全局 PadState 定义
+PadState g_pad;
+
 static void	create_requiered_folder(void)
 {
 	if (mkdir(EBOOK_PATH, 0777) != -1) {
@@ -40,6 +43,11 @@ void	init_all(void)
 		log_fatal("romfsInit() [Failure]");
 		exit(-1);
 	}
+
+	// 初始化新版 libnx 输入系统
+	padConfigureInput(1, HidNpadStyleSet_NpadStandard);
+	padInitializeDefault(&g_pad);
+	hidInitializeTouchScreen();
 
 	graphic = (t_graphic *)calloc(sizeof(t_graphic), 1);
 	graphic->ttf = (t_ttf *)calloc(sizeof(t_ttf), 1);

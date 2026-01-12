@@ -1,80 +1,94 @@
-# EbookViewerNX
+# ReaderNX
 
-## Description :
+Ebook reader for Nintendo Switch, forked from [EbookViewerNX](https://github.com/SegFault42/ebookViewerNX).
 
-Ebook reader for nintendo switch using mupdf library
+## Features
 
-## Screenshots :
+- Read PDF, EPUB, CBR, CBZ files
+- Portrait/Landscape orientation
+- Dual page view (landscape mode)
+- Touchscreen support
+- Progress bar and page indicator
+- Sort by last read (recent books first)
+- **Web Upload** - Upload ebooks from your browser via Wi-Fi
 
-<p align="center">
-    <img src="https://user-images.githubusercontent.com/9384676/69355458-1a9d0000-0c82-11ea-9331-4ef38d3f2a1c.jpg">
-    <img src="https://user-images.githubusercontent.com/9384676/69355459-1a9d0000-0c82-11ea-85a3-45ec3955e52c.jpg">
-    <img src="https://user-images.githubusercontent.com/9384676/69355461-1b359680-0c82-11ea-8195-5ddc72072728.jpg">
-    <img src="https://user-images.githubusercontent.com/9384676/69355463-1b359680-0c82-11ea-8ca4-534b7b0a3fbe.jpg">
-</p>
+## Usage
 
-## Usage :
-- Move the .nro in /switch folder
-- Move all ebooks in /switch/ebookViewerNX folder
-- Warning : ebook title must not have '='
-- Enjoy !
+1. Copy `ReaderNX.nro` to `/switch/` folder on your SD card
+2. Create folder `/switch/ebookViewerNX/` and put your ebooks there
+3. Launch from Homebrew Menu
 
-## Control :
-```
-- Home menu :
-- Launch ebook : A
-- Next book : Right ( with Right joystick )
-- Previous book : Left ( with Right joystick )
-- Quit : Start button
-- Help : X button
-	
-- Reading :
-- Hide/Show bar : A
-- Portrait/Landscape : ZR
-- Next page : Right ( with Right joystick )
-- Previous page : Left ( with Right joystick )
-- Next 10 pages : Up ( with Right joystick )
-- Previous 10 pages : Down ( with Right joystick )
-- Quit : Start button
-- Help : X button
-```
+### Web Upload
 
-## Progress roadmap :
-- [x] Read ebook (.pdf, .epub)
-- [x] landscape/portrait
-- [x] touchscreen support
-- [x] info screen
-- [x] menu bar
-- [x] print current page (10/250)
-- [x] .cbr support
-- [ ] Portrait view in home menu
-- [ ] multiple view in home
-- [ ] Night mode
-- [ ] Sort by last read
-- [ ] Double page
-- [ ] cache to load pages faster
-- [ ] vibrate when button pressed
-- [ ] Customisable control in config file
-- [ ] Add progress bar for visual loading
+1. Press `-` button in home menu to start web server
+2. Connect your PC/phone to the same Wi-Fi network
+3. Open browser and go to `http://<Switch IP>:8080`
+4. Upload PDF, EPUB, CBR, or CBZ files directly
 
-## Building (For developers) :
+## Controls
 
-### Dependency :
+### Home Menu (List View)
+| Button | Action |
+|--------|--------|
+| Up/Down, Left Stick | Navigate books |
+| L / R | Page up/down |
+| A | Open book |
+| - (Minus) | Toggle Web Server |
+| + (Plus) | Quit |
 
-```
+### Reading
+| Button | Action |
+|--------|--------|
+| Right Stick Left/Right | Previous/Next page |
+| Right Stick Up/Down | -10/+10 pages |
+| ZR | Toggle Portrait/Landscape |
+| Y | Toggle Dual Page mode |
+| X | Toggle floating bar |
+| A | Toggle help |
+| + (Plus) | Return to home |
+| Touch | Tap screen edges to turn pages |
+
+## Building
+
+### Prerequisites (Arch Linux with devkitPro)
+
+```bash
 sudo pacman -S libnx switch-tools switch-sdl2 switch-sdl2_image switch-sdl2_ttf switch-liblzma
-yay ltwili
 ```
 
-```
-git clone --recursive https://github.com/SegFault42/ebookViewerNX
-cd ebookViewerNX/libs
+### Build
+
+```bash
+git clone --recursive https://github.com/guyiicn/ReaderNX
+cd ReaderNX/libs
 make -f Makefile.mupdf
-cd ../
+cd ..
 make
 ```
 
-## improvement :
+### PC Build (for testing)
 
-- Load 3 pages to switch page faster (prev, curr, next)
-- kill all useless process to save battery
+```bash
+make pc
+```
+
+Note: PC build requires mupdf and SDL2 installed. CBR/CBZ not supported on PC.
+
+## Roadmap
+
+- [x] Read PDF/EPUB
+- [x] Portrait/Landscape mode
+- [x] Touchscreen support
+- [x] CBR/CBZ support
+- [x] Progress bar
+- [x] Dual page view
+- [x] Sort by last read
+- [x] Web upload via Wi-Fi
+- [ ] Night mode
+- [ ] Page cache for faster loading
+
+## Credits
+
+- Original project: [SegFault42/ebookViewerNX](https://github.com/SegFault42/ebookViewerNX)
+- PDF/EPUB rendering: [MuPDF](https://mupdf.com/)
+- Web server: [Mongoose](https://github.com/cesanta/mongoose)

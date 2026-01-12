@@ -6,6 +6,7 @@ extern t_transform	*trans;
 extern t_controller	*controller;
 extern t_layout		*layout;
 extern t_cbr		*cbr;
+extern PadState		g_pad;
 
 bool	init_mupdf(void)
 {
@@ -264,12 +265,16 @@ void	ebook_reader(char *book)
 
 	ebook->read_mode = true;
 	while (appletMainLoop()) {
-		hidScanInput();
+		padUpdate(&g_pad);
 
-		u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
-		touchPosition touch = {0};
-
-		hidTouchRead(&touch, 0);
+		u64 kDown = padGetButtonsDown(&g_pad);
+		HidTouchScreenState touch_state = {0};
+		hidGetTouchScreenStates(&touch_state, 1);
+		TouchPoint touch = {0, 0};
+		if (touch_state.count > 0) {
+			touch.x = touch_state.touches[0].x;
+			touch.y = touch_state.touches[0].y;
+		}
 
 		if (kDown & controller->quit || (layout->show_bar == true && touch_button(touch, e_exit) == true)) {
 			ebook->read_mode = false;
@@ -281,7 +286,7 @@ void	ebook_reader(char *book)
 			ebook->layout_orientation = !ebook->layout_orientation;
 			refresh = true;
 			help = false;
-		} else if (kDown & KEY_A || (touch_button(touch, e_bar) == true)) {
+		} else if (kDown & HidNpadButton_A || (touch_button(touch, e_bar) == true)) {
 			layout->show_bar = !layout->show_bar;
 			refresh = true;
 			help = false;

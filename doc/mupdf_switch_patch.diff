@@ -1,0 +1,17 @@
+diff --git a/source/pdf/pdf-annot.c b/source/pdf/pdf-annot.c
+index ff7722dea..2ac65898b 100644
+--- a/source/pdf/pdf-annot.c
++++ b/source/pdf/pdf-annot.c
+@@ -7,6 +7,12 @@
+ 
+ #ifdef _WIN32
+ #define timegm _mkgmtime
++#elif defined(__SWITCH__)
++/* Simple timegm implementation for Switch */
++static time_t timegm(struct tm *tm) {
++	/* Simplified implementation - treat as UTC */
++	return mktime(tm);
++}
+ #endif
+ 
+ #define isdigit(c) (c >= '0' && c <= '9')
