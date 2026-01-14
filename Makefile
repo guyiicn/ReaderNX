@@ -169,7 +169,7 @@ endif
 all: $(BUILD)
 
 pc:
-	clang -g source/*.c libs/log.c/src/*.c -I include -I ./libs/log.c/src -L/usr/local/lib -lmupdf -lmupdf-third -I/usr/include/SDL2 -D_REENTRANT -pthread -lSDL2 -lSDL2_ttf -lSDL2_image -larchive -lmujs -lfreetype -lharfbuzz -ljpeg -ljbig2dec -lopenjp2 -lgumbo -lz -lm -DLOG_USE_COLOR -D__PC_BUILD__ -o EbookViewerNX_pc
+	clang -g source/*.c libs/log.c/src/*.c -I include -I ./libs/log.c/src -I/usr/include/SDL2 `pkg-config --cflags --libs mupdf` -D_REENTRANT -pthread -lSDL2 -lSDL2_ttf -lSDL2_image -larchive -lmujs -lgumbo -lz -lm -DLOG_USE_COLOR -D__PC_BUILD__ -o EbookViewerNX_pc
 
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
