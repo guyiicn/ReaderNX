@@ -28,7 +28,9 @@ static void	create_requiered_folder(void)
 
 void	init_all(void)
 {
+	#ifndef __PC_BUILD__
 	Result	ret = 0;
+	#endif
 
 	#ifdef __NXLINK__
 		socketInitializeDefault();
@@ -39,6 +41,7 @@ void	init_all(void)
 		twiliInitialize();
 	#endif
 
+	#ifndef __PC_BUILD__
 	if (R_FAILED(ret = romfsInit())) {
 		log_fatal("romfsInit() [Failure]");
 		exit(-1);
@@ -48,6 +51,7 @@ void	init_all(void)
 	padConfigureInput(1, HidNpadStyleSet_NpadStandard);
 	padInitializeDefault(&g_pad);
 	hidInitializeTouchScreen();
+	#endif
 
 	graphic = (t_graphic *)calloc(sizeof(t_graphic), 1);
 	graphic->ttf = (t_ttf *)calloc(sizeof(t_ttf), 1);
@@ -89,7 +93,9 @@ void	init_all(void)
 
 void	deinit_all(void)
 {
+	#ifndef __PC_BUILD__
 	romfsExit();
+	#endif
 	deinit_ttf();
 	deinit_graphic();
 	deinit_layout();
@@ -122,9 +128,15 @@ bool	init_ttf(void)
 		return (false);
 	}
 
-	graphic->ttf->font_small = TTF_OpenFont("romfs:/fonts/NintendoStandard.ttf", 24);
-	graphic->ttf->font_medium = TTF_OpenFont("romfs:/fonts/NintendoStandard.ttf", 31);
-	graphic->ttf->font_large = TTF_OpenFont("romfs:/fonts/NintendoStandard.ttf", 42);
+#ifdef __PC_BUILD__
+	#define FONT_PATH "romfs/fonts/NintendoStandard.ttf"
+#else
+	#define FONT_PATH "romfs:/fonts/NintendoStandard.ttf"
+#endif
+
+	graphic->ttf->font_small = TTF_OpenFont(FONT_PATH, 24);
+	graphic->ttf->font_medium = TTF_OpenFont(FONT_PATH, 31);
+	graphic->ttf->font_large = TTF_OpenFont(FONT_PATH, 42);
 	if (graphic->ttf->font_small == NULL || graphic->ttf->font_medium == NULL || graphic->ttf->font_large == NULL) {
 		log_fatal("TTF_OpenFont(): %s\n", TTF_GetError());
 		free(graphic->ttf);
@@ -132,6 +144,8 @@ bool	init_ttf(void)
 		TTF_Quit();
 		return (false);
 	}
+
+#undef FONT_PATH
 
 	log_info("init_ttf() [Success]");
 	return (true);

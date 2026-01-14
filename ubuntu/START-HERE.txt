@@ -1,0 +1,24 @@
+╔════════════════════════════════════════════════════════╗
+║          ReaderNX - Ubuntu 构建指南                    ║
+╚════════════════════════════════════════════════════════╝
+
+一键安装：
+  cd ubuntu
+  ./setup-all.sh
+
+分步执行：
+  ./setup-devkitpro.sh       # 安装 devkitPro
+  source ~/.bashrc            # 加载环境变量
+  ./install-dependencies.sh   # 安装库
+  ./build-mupdf.sh            # 编译 MuPDF (5-10分钟)
+  ./build.sh                  # 编译 ReaderNX
+
+PC 版本（用于测试）：
+  ./build-pc.sh              # 编译 PC 版本
+  ./run-pc.sh                # 运行 PC 版本
+
+诊断工具：
+  ./check-environment.sh
+
+清理：
+  ./cleanup-devkitpro-apt.sh

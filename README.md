@@ -50,15 +50,44 @@ Ebook reader for Nintendo Switch, forked from [EbookViewerNX](https://github.com
 
 ## Building
 
-### Prerequisites (Arch Linux with devkitPro)
+### Ubuntu (Recommended - One-Click Setup)
+
+Ubuntu users can use automated build scripts that handle all dependencies:
+
+```bash
+git clone --recursive https://github.com/guyiicn/ReaderNX
+cd ReaderNX/ubuntu
+./setup-all.sh
+```
+
+This will:
+- Install devkitPro toolchain
+- Install all Switch libraries
+- Build MuPDF (takes 5-10 minutes)
+- Build ReaderNX
+
+Output: `ReaderNX.nro` in project root.
+
+**Alternative - Step by step:**
+```bash
+cd ubuntu
+./setup-devkitpro.sh       # Install devkitPro
+source ~/.bashrc            # Load environment
+./install-dependencies.sh   # Install Switch libraries
+./build-mupdf.sh            # Build MuPDF
+./build.sh                  # Build ReaderNX
+```
+
+See [`ubuntu/README.md`](ubuntu/README.md) for detailed documentation.
+
+**Note:** This build uses `--allow-unauthenticated` for APT packages because the dependencies are 7 years old with expired PGP keys. This is safe for this specific use case.
+
+### Arch Linux (Manual Setup)
+
+If you're on Arch with devkitPro already configured:
 
 ```bash
 sudo pacman -S libnx switch-tools switch-sdl2 switch-sdl2_image switch-sdl2_ttf switch-liblzma
-```
-
-### Build
-
-```bash
 git clone --recursive https://github.com/guyiicn/ReaderNX
 cd ReaderNX/libs
 make -f Makefile.mupdf
@@ -66,13 +95,36 @@ cd ..
 make
 ```
 
-### PC Build (for testing)
+### PC Build (for testing on Linux)
 
+Build a PC version to test without Switch hardware:
+
+**Ubuntu:**
 ```bash
-make pc
+cd ubuntu
+./install-pc-dependencies.sh  # Install SDL2, mupdf, etc.
+./build-pc.sh                  # Build
+./run-pc.sh                    # Run
 ```
 
-Note: PC build requires mupdf and SDL2 installed. CBR/CBZ not supported on PC.
+**Manual:**
+```bash
+# Install dependencies first
+sudo apt-get install clang libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
+    libmupdf-dev libarchive-dev libmujs-dev libjbig2dec0-dev \
+    libopenjp2-7-dev libgumbo-dev
+
+# Build
+make pc
+
+# Run
+./EbookViewerNX_pc
+```
+
+**Limitations:**
+- PC build is for testing UI/layout only
+- Some features may not work as expected
+- Put test ebooks in `/switch/ebookViewerNX/` (same as Switch)
 
 ## Roadmap
 

@@ -1,13 +1,34 @@
+# Build artifacts
 *.nacp
 *.nro
 *.elf
-a.out
-*.txt
-.gdb_history
-*.pdf
-tags
 *.o
 *.lst
 *.map
 *.d
-EbookReaderNX_pc
+a.out
+build/
+
+# Executables
+EbookViewerNX_pc
+
+# Debug files
+.gdb_history
+tags
+
+# Test files
+*.pdf
+*.epub
+*.cbz
+*.cbr
+
+# Exclude ubuntu/*.txt from global ignore
+*.txt
+!ubuntu/*.txt
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

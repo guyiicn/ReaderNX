@@ -1,0 +1,35 @@
+From: ReaderNX <guyiicn@gmail.com>
+Date: Mon, 13 Jan 2025
+Subject: [PATCH] Add timegm implementation for Nintendo Switch
+
+The Nintendo Switch uses newlib which doesn't provide timegm().
+This patch adds a timegm implementation using mktime() with TZ manipulation.
+
+diff --git a/source/pdf/pdf-annot.c b/source/pdf/pdf-annot.c
+index ff7722dea..b13b8ab5e 100644
+--- a/source/pdf/pdf-annot.c
++++ b/source/pdf/pdf-annot.c
+@@ -7,6 +7,23 @@
+
+ #ifdef _WIN32
+ #define timegm _mkgmtime
++#elif defined(__SWITCH__)
++/* timegm implementation for Switch (newlib doesn't provide it) */
++static time_t timegm(struct tm *tm) {
++	time_t ret;
++	char *tz;
++
++	tz = getenv("TZ");
++	setenv("TZ", "UTC", 1);
++	tzset();
++	ret = mktime(tm);
++	if (tz)
++		setenv("TZ", tz, 1);
++	else
++		unsetenv("TZ");
++	tzset();
++	return ret;
++}
+ #endif
+
+ #define isdigit(c) (c >= '0' && c <= '9')
