@@ -49,7 +49,11 @@ mupdf:
   LD=${TOOL_PREFIX}ld \
   AR=${TOOL_PREFIX}ar \
   RANLIB=${TOOL_PREFIX}ranlib \
-  XCFLAGS="${CPPFLAGS} ${CFLAGS}" \
+  XCFLAGS="-D__SWITCH__ -march=armv8-a+crc+crypto -mtune=cortex-a57 -mtp=soft -fPIE -g -O2 -ffunction-sections" \
+  SYS_FREETYPE_CFLAGS="-I$(DEVKITPRO)/portlibs/switch/include/freetype2" \
+  SYS_LIBJPEG_CFLAGS="-I$(DEVKITPRO)/portlibs/switch/include" \
+  SYS_FREETYPE_LIBS="-lfreetype" \
+  SYS_LIBJPEG_LIBS="-ljpeg" \
   USE_SYSTEM_FREETYPE=yes \
   USE_SYSTEM_HARFBUZZ=no \
   USE_SYSTEM_JBIG2DEC=no \
